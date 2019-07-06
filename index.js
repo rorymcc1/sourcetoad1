@@ -87,6 +87,11 @@ let flattenAssoc = function(key, multi, flat) {
   return;
 };
 
+//Is this person a guest
+let isGuest = function (person) {
+  return person.guest_type === "guest";
+}
+
 //Mutate Array Objects
 function mutateArray(a) {
   $.each(a, function(index, value) {
@@ -94,7 +99,7 @@ function mutateArray(a) {
     flattenAssoc(index, value, flattened);
     a[index] = flattened;
   });
-  return a;
+  return a.filter(isGuest);
 }
 
 $(document).ready(function() {

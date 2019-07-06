@@ -5,7 +5,7 @@ var arr = [
     'last_name': 'Burns',
     'guest_booking': {
         'room_no': 'A0073',
-        'some_array': [7,2,4]
+        'some_array': [7,2,4],
     },
   },
   {
@@ -55,8 +55,32 @@ var arr = [
   },
 ];
 
+//Is input parameter an obj or associtive array 
+let isPlainObject = function (obj) {
+	return Object.prototype.toString.call(obj) === '[object Object]';
+};
+
+//Flatten only associtive arrays - recursive function
+let flattenAssoc = function(key, multi, flat) {
+  if(isPlainObject(multi)){
+    $.each(multi, function(index, value){
+      flattenAssoc(index, value, flat);
+    });
+
+  }else{
+    flat[key] = multi;
+  }
+  return;
+}
+
+//Mutate Array Objects
 function mutateArray(a) {
-    return a;
+  $.each(a, function(index, value){
+    let flattened = {};
+    flattenAssoc(index, value, flattened);
+    a[index] = flattened;    
+  });
+  return a;
 }
 
 $(document).ready(function() {

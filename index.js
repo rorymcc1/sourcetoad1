@@ -88,9 +88,24 @@ let flattenAssoc = function(key, multi, flat) {
 };
 
 //Is this person a guest
-let isGuest = function (person) {
+let isGuest = function(person) {
   return person.guest_type === "guest";
-}
+};
+
+//Compare names used in sort
+let compare = function(a, b) {
+  // Use toUpperCase() to ignore character casing
+  const nameA = (a.last_name + a.first_name).toUpperCase();
+  const nameB = (b.last_name + b.first_name).toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+};
 
 //Mutate Array Objects
 function mutateArray(a) {
@@ -104,5 +119,7 @@ function mutateArray(a) {
 
 $(document).ready(function() {
   $("#originalArray").html(JSON.stringify(arr, null, 2));
-  $("#resultsArray").html(JSON.stringify(mutateArray(arr), null, 2));
+  $("#resultsArray").html(
+    JSON.stringify(mutateArray(arr).sort(compare), null, 2)
+  );
 });
